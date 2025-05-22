@@ -3,7 +3,6 @@ In this guide, I will show you how to deploy your Kubernetes container globally 
 
 ## Prerequisites:
 - [Azure for Students Subscription](https://education.github.com/pack)
-- [Azure for Students Subscription](https://education.github.com/pack)
 - [Azure Command-Line Interface](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest&pivots=msi)
 - [Kubernetes Command-Line Tool (kubectl)](https://kubernetes.io/docs/tasks/tools/)
 - [Lens Kubernetes IDE (optional but highly recommended)](https://k8slens.dev/)
