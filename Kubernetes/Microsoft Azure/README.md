@@ -1,7 +1,7 @@
-# Overview:
+# Overview
 In this guide, I will show you how to deploy your Kubernetes container globally using [ngrok](https://ngrok.com/) Kubernetes operator. I'll also demonstrate how to install Ingress NGINX and Istio, along with their integrations, using the Helm package manager.
 
-### Prerequisites
+### Prerequisites:
 1. [Azure for Students Subscription](https://education.github.com/pack)
 2. [Azure Command-Line Interface](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest&pivots=msi)
 3. [kubectl on Windows OS](https://kubernetes.io/docs/tasks/tools/install-kubectl-windows/)
@@ -24,7 +24,7 @@ Once your GitHub Student Developer Pack is active:
 2. Next, click **Use another account** -> **Sign in with GitHub** to claim your free subscription from GitHub
 3. After that, I suggest you watch a YouTube guide for a step-by-step demo: [How to Create a Kubernetes Cluster in Azure?](https://youtu.be/YlR9AkDJMMA?si=DZ6g193hB_mphYBK)
 
-### My AKS Cluster Settings
+### My AKS Cluster Settings:
 - Dev/Test Configuration
 - No availability zones
 - Standard A2_v2 Virtual Machine
