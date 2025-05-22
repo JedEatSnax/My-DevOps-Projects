@@ -3,10 +3,10 @@ In this guide, I will show you how to deploy your Kubernetes container globally 
 
 
 ## Prerequisites
-- [Azure for Students Subscription](https://education.github.com/pack)
-- [Azure Command-Line Interface](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest&pivots=msi)
-- [kubectl on Windows OS](https://kubernetes.io/docs/tasks/tools/install-kubectl-windows/)
-- [Lens Kubernetes IDE](https://k8slens.dev/)
+1. [Azure for Students Subscription](https://education.github.com/pack)
+2. [Azure Command-Line Interface](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest&pivots=msi)
+3. [kubectl on Windows OS](https://kubernetes.io/docs/tasks/tools/install-kubectl-windows/)
+4. [Lens Kubernetes IDE](https://k8slens.dev/)
 
 
 ## Disclaimer and Best Practices
@@ -21,9 +21,9 @@ In this guide, I will show you how to deploy your Kubernetes container globally 
 
 ## Creating a Kubernetes Cluster in Azure
 Once your GitHub Student Developer Pack is active:
-- Head over to [Microsoft Azure Portal](portal.azure.com)
-- Click **Use another account** -> **Sign in with GitHub** to claim your free subscription from GitHub
-- Next, I suggest you watch a YouTube guide for a step-by-step demo: [How to Create a Kubernetes Cluster in Azure?](https://youtu.be/YlR9AkDJMMA?si=DZ6g193hB_mphYBK)
+1. First, head over to [Microsoft Azure Portal](portal.azure.com)
+2. Next, click **Use another account** -> **Sign in with GitHub** to claim your free subscription from GitHub
+3. After that, I suggest you watch a YouTube guide for a step-by-step demo: [How to Create a Kubernetes Cluster in Azure?](https://youtu.be/YlR9AkDJMMA?si=DZ6g193hB_mphYBK)
 
 ### My AKS Cluster Settings
 - Dev/Test Configuration
