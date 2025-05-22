@@ -16,7 +16,7 @@ In this guide, I will show you how to deploy your Kubernetes container globally 
 - It's okay to create another Kubernetes cluster if you want to start over from scratch.
 - This guide consolidates insights from various tutorials and resources. I've included links to all the guides I followed.
 
-### Creating a Kubernetes Cluster in Azure
+## Creating a Kubernetes Cluster in Azure
 Once your GitHub Student Developer Pack is active:
 - Head over to [Microsoft Azure Portal](portal.azure.com)
 - Click **Use another account** -> **Sign in with GitHub** to claim your free subscription from GitHub
