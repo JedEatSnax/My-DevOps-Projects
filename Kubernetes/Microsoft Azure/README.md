@@ -23,7 +23,7 @@ In this guide, I will show you how to deploy your Kubernetes container globally 
 Once your GitHub Student Developer Pack is active:
 - Head over to [Microsoft Azure Portal](portal.azure.com)
 - Click **Use another account** -> **Sign in with GitHub** to claim your free subscription from GitHub
-- Next, I suggest you watch a YouTube guide for a step-by-step demo. Here is the one I followed: [How to Create a Kubernetes Cluster in Azure?](https://youtu.be/YlR9AkDJMMA?si=DZ6g193hB_mphYBK)
+- Next, I suggest you watch a YouTube guide for a step-by-step demo: [How to Create a Kubernetes Cluster in Azure?](https://youtu.be/YlR9AkDJMMA?si=DZ6g193hB_mphYBK)
 
 ### My AKS Cluster Settings
 - Dev/Test Configuration
