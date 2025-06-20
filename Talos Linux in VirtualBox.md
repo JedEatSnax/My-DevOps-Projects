@@ -1,7 +1,7 @@
-**Talos Linux in VirtualBox**
+**Talos Linux ver 1.10.4 in VirtualBox**
 
 #Prerequisites
-- Must have an existing instance of Linux distro (Ubuntu, Debian, etcetera) that acts as a manager for the nodes.
+- Must have an existing instance of Linux distribution (Ubuntu, Debian, etcetera) that will act as a manager for the nodes.
 - Must have talosctl installed on the said instance of Linux distro manager.
 - Must have a metal-amd64 ISO of Talos Linux.
 - All virtual machines must be on a bridged adapter network.
@@ -56,9 +56,12 @@ talosctl kubeconfig .
 kubectl get nodes --kubeconfig=kubeconfig
 kubectl get pods -n kube-system --kubeconfig=kubeconfig
 
+# Clean-up
 talosctl shutdown --nodes $CONTROL_PLANE_IP --talosconfig $TALOSCONFIG
 talosctl shutdown --nodes $WORKER_IP --talosconfig $TALOSCONFIG
 
+# Once you poweroff the Talos virtual machines, go to VirtualBox settings
+- Settings > Storage > Controller: IDE > Right Click metal-amd64 ISO > Remove Attachment > Press OK
 # Commands to reset everything
 rm -rf ~/.talos/
 rm -rf _out/
