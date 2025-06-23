@@ -1,71 +1,91 @@
-**Talos Linux ver 1.10.4 in VirtualBox**
+# 📦 Talos Linux v1.10.4 on VirtualBox — Setup Guide
+Talos is a container optimized Linux distribution for Kubernetes. It is designed to be minimal, immutable, and secure by default. Learn more at [Sidero Labs official documentation](https://www.talos.dev/v1.10/introduction/what-is-talos/). This setup is a development environment for the Talos API. It is recommended to use bare-metal setups or type-1 hypervisors, such as Hyper-V or Proxmox for long-term production environments. The official setup guide from Siderolabs is [here](https://www.talos.dev/v1.10/talos-guides/install/local-platforms/virtualbox/). The purpose of this guide is to add information that is missing from the official guide.
 
-#Prerequisites
-- Must have an existing instance of Linux distribution (Ubuntu, Debian, etcetera) that will act as a manager for the nodes.
-- Must have talosctl installed on the said instance of Linux distro manager.
-- Must have a metal-amd64 ISO of Talos Linux.
-- All virtual machines must be on a bridged adapter network.
-- All Talos Linux virtual machines must have a static IP.
+## 🖥️ Binaries and Packages for Linux Manager:
+*This machine will act as a manager for the Talos API. The recommended Linux distributions are Ubuntu and Debian. I suggest downloading the binaries using Homebrew.*
+- [Homebrew Package Manager](https://brew.sh/)
+- [Talos Linux CLI (talosctl)](https://www.talos.dev/v1.10/talos-guides/install/talosctl/)
+- [Kubernetes CLI (kubectl)](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-using-other-package-management)
+- [k9s terminal UI](https://k9scli.io/topics/install/) (Optional)
 
-# How to set Talos virtual machines with static IP address
-- Take note of the IP and GW at the top right corner of the summary page.
-- My control plane IP is 192.168.1.156/24 and the GW or gateway is 192.168.1.1
-- Press 'F3' and 'Tab' until you reach Interface. Press 'Enter' and enp0s3.
-- Next, press 'Tab' again and 'Enter' to change the Mode from DHCP to Static.
-- Lastly, press 'Tab' and 'Enter' to save the configuration.
-- Do the same steps for the worker nodes or other control planes you want to setup.
+## 🖥️ Talos Linux Virtual Machine Configurations:
+- [Bare-metal Talos Linux ISO](https://factory.talos.dev/)
+- 2048 MB of memory, 20 GB of disk space
+- 2 CPUs for Control Planes, 1 CPU for Workers
+- All virtual machines must be configured to use a **Bridged Adapter**.
+- **Promiscuous Mode** must allow VMs.
+- **Cable Connected** must be allowed.
 
-# Setting up the control plane
+---
+
+## 🌐 Setting a Static IP address on Talos VMs using Network Config:
+*This step is essential because all Talos VMs will reboot. The IP addresses will change because DHCP is on by default.*
+1. Take note of the **IP address** and **Gateway** displayed at the top right of the Talos **Summary**.
+![Summary](https://github.com/user-attachments/assets/d0b8b2e0-e359-4209-9de1-373b49310c0c)
+2. Press `F3` to open the menu.
+3. Navigate to **Interface** using `Tab`, then press `Enter`.
+4. Select your Network Interface. Mine was `enp0s3`, then press `Enter`.
+5. Use `Tab` to navigate to **Mode**, switch from `DHCP` to `Static`, and press `Enter`.
+6. Enter your desired static IP configuration. I used the same IP address initially provided by Talos.
+7. Press `Tab` to select **Save** and hit `Enter`.
+![NetworkConfig](https://github.com/user-attachments/assets/16cf5d15-592f-410d-b016-240cc31e9c38)
+8. Repeat for any worker nodes or additional control planes.
+
+## 🌐 Setting a Static IP address on Linux Manager using Netplan:
+*Placeholder*
+1. Do `ip -a`
+2. Look at your IP address and Network Interface
+3. Copy paste format
+4. Stuff
+
+---
+
+## 🖥️ Setting up the Control Plane
+
+```bash
 export CONTROL_PLANE_IP=<control-plane-IP>
-echo $CONTROL_PLANE_IP
+
 talosctl gen config talos-vbox-cluster https://$CONTROL_PLANE_IP:6443 --output-dir _out
+
 talosctl apply-config --insecure --nodes $CONTROL_PLANE_IP --file _out/controlplane.yaml
+```
 
-# The control plane IP address will change, unless the virtual machine IP is static.
-# Change the CONTROL_PLANE_IP and WORKER_IP exports accordingly.
-
-# Setting up a worker node
+## 🖥️ Setting up a Worker Node
+```bash
 export WORKER_IP=<worker-node-IP>
-echo $WORKER_IP
+
 talosctl apply-config --insecure --nodes $WORKER_IP --file _out/worker.yaml
+```
 
-# After this, the operating system will automatically reboot.
-# Wait for the kubelet to be healthy
-
+## 📝 Bootstrap the Cluster and Set Talos Config
+```bash
 export TALOSCONFIG=_out/talosconfig
+
 talosctl --talosconfig $TALOSCONFIG config endpoint $CONTROL_PLANE_IP
 talosctl --talosconfig $TALOSCONFIG config node $CONTROL_PLANE_IP
 
 talosctl config get-contexts
+```
+*If you have multiple control planes, change the IP addresses accordingly to bootstrap all control planes.*
+```bash
+talosctl --talosconfig $TALOSCONFIG config endpoint <second-control-plane-ip>
+talosctl --talosconfig $TALOSCONFIG config node <second-control-plane-ip>
+```
 
-# If there are no context shown, you might have messed up something.
-talosctl --talosconfig $TALOSCONFIG bootstrap
+---
 
-talosctl kubeconfig .
-
-# Once you do the kubeconfig command, it will ask you to rename or overwrite.
-# I chose rename. So, I entered 'r'
-
-# Wait for a few minutes until the worker node says:
-"[talos] machine is running and ready"
-
-# And when the control plane says:
-"entered forwarding state"
-
-# Enter these commands once everything is good
-kubectl get nodes --kubeconfig=kubeconfig
-kubectl get pods -n kube-system --kubeconfig=kubeconfig
-
-# Clean-up
-talosctl shutdown --nodes $CONTROL_PLANE_IP --talosconfig $TALOSCONFIG
-talosctl shutdown --nodes $WORKER_IP --talosconfig $TALOSCONFIG
-
-# Once you poweroff the Talos virtual machines, go to VirtualBox settings
-- Settings > Storage > Controller: IDE > Right Click metal-amd64 ISO > Remove Attachment > Press OK
-# Commands to reset everything
+## 🗑️ Delete or Reset Talos Config and Clean Working Directory
+```bash
 rm -rf ~/.talos/
 rm -rf _out/
 rm -f controlplane.yaml worker.yaml talosconfig
+
 unset CONTROL_PLANE_IP
 unset WORKER_IP
 unset TALOSCONFIG
+
+brew uninstall talosctl
+brew uninstall kubectl
+brew uninstall k9s
+```
+
