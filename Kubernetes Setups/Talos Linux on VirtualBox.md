@@ -127,8 +127,6 @@ talosctl gen config talos-vbox-cluster https://$CONTROL_PLANE_IP:6443 --output-d
 talosctl apply-config --insecure --nodes $CONTROL_PLANE_IP --file _out/controlplane.yaml
 ```
 
----
-
 ## 💻 Deploy Worker Nodes
 
 ```bash
@@ -136,8 +134,6 @@ export WORKER_IP=<worker-node-IP>
 
 talosctl apply-config --insecure --nodes $WORKER_IP --file _out/worker.yaml
 ```
-
----
 
 ## 📅 Bootstrap the Cluster + Configure Context
 
@@ -152,8 +148,6 @@ talosctl config get-contexts
 talosctl --talosconfig $TALOSCONFIG bootstrap
 ```
 
----
-
 ## 📆 Fetch Kubeconfig & Test Cluster
 
 ```bash
@@ -161,8 +155,6 @@ talosctl --talosconfig $TALOSCONFIG kubeconfig ./
 kubectl --kubeconfig=./kubeconfig get nodes
 kubectl --kubeconfig=./kubeconfig get pods -n kube-system
 ```
-
----
 
 ## 📇 Clean-up + Reset Configs
 
