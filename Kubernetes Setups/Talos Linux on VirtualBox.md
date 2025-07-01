@@ -1,109 +1,123 @@
 # 📦 Talos Linux v1.10.4 on VirtualBox — Setup Guide
-Talos is a container optimized Linux distribution for Kubernetes. It is designed to be minimal, immutable, and secure by default. Learn more at [Sidero Labs official documentation](https://www.talos.dev/v1.10/introduction/what-is-talos/). This setup is a development environment for the Talos API. It is recommended to use bare-metal setups or type-1 hypervisors, such as Hyper-V or Proxmox for long-term production environments. The official setup guide from Siderolabs is [here](https://www.talos.dev/v1.10/talos-guides/install/local-platforms/virtualbox/). The purpose of this guide is to add information that is missing from the official guide.
 
-## 🖥️ Binaries and Packages for Linux Manager:
-*This machine will act as a manager for the Talos API. The recommended Linux distributions are Ubuntu and Debian. I suggest downloading the binaries using Homebrew.*
-- [Homebrew Package Manager](https://brew.sh/)
-- [Talos Linux CLI (talosctl)](https://www.talos.dev/v1.10/talos-guides/install/talosctl/)
-- [Kubernetes CLI (kubectl)](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-using-other-package-management)
-- [k9s terminal UI](https://k9scli.io/topics/install/) (Optional)
-
-## 🖥️ Talos Linux Virtual Machine Configurations:
-- [Bare-metal Talos Linux ISO](https://factory.talos.dev/)
-- 2048 MB of memory, 20 GB of disk space
-- 2 CPUs for Control Planes, 1 CPU for Workers
-- All virtual machines must be configured to use a **Bridged Adapter**.
-- **Promiscuous Mode** must allow all.
-- **Cable Connected** must be allowed.
+Talos is a container-optimized Linux distribution for Kubernetes. It is designed to be minimal, immutable, and secure by default. Learn more at [Sidero Labs official documentation](https://www.talos.dev/v1.10/introduction/what-is-talos/). This setup provides a development environment for the Talos API. For long-term production, bare-metal setups or type-1 hypervisors like Hyper-V or Proxmox are recommended. Official Talos VirtualBox guide: [here](https://www.talos.dev/v1.10/talos-guides/install/local-platforms/virtualbox/). This guide adds practical tips missing from the official guide.
 
 ---
 
-## 🌐 Setting a Static IP address on Talos VMs using Network Config:
-*This step is essential because all Talos VMs will reboot. The IP addresses will change because DHCP is on by default.*
-1. Take note of the **IP address** and **Gateway** displayed at the top right of the Talos **Summary**.
-![Summary](https://github.com/user-attachments/assets/d0b8b2e0-e359-4209-9de1-373b49310c0c)
-2. Press `F3` to open the menu.
-3. Navigate to **Interface** using `Tab`, then press `Enter`.
-4. Select your Network Interface. Mine was `enp0s3`, then press `Enter`.
-5. Use `Tab` to navigate to **Mode**, switch from `DHCP` to `Static`, and press `Enter`.
-6. Enter your desired static IP configuration. I used the same IP address initially provided by Talos.
-7. Press `Tab` to select **Save** and hit `Enter`.
-![NetworkConfig](https://github.com/user-attachments/assets/16cf5d15-592f-410d-b016-240cc31e9c38)
-8. Repeat for any worker nodes or additional control planes.
+## 💻 Binaries and Packages for Linux Manager
 
-## 🌐 Setting a Static IP address on Linux Manager using Netplan:
-*Placeholder*
-1. Do `ip a` to look for your IP address and network interface.
-```git bash
+*This machine acts as the Talos cluster management workstation. Recommended distributions: Ubuntu, Debian.*
+
+Install via [Homebrew](https://brew.sh/):
+
+* [Talos Linux CLI (talosctl)](https://www.talos.dev/v1.10/talos-guides/install/talosctl/)
+* [Kubernetes CLI (kubectl)](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
+* [k9s terminal UI](https://k9scli.io/topics/install/) (optional)
+
+---
+
+## 💻 Talos VM Configuration (VirtualBox)
+
+* Download: [Bare-metal Talos Linux ISO](https://factory.talos.dev/)
+* Control Plane: 2048MB RAM, 20GB Disk, 2 vCPUs
+* Worker Node: 2048MB RAM, 20GB Disk, 1 vCPU
+* Network Adapter: **Bridged Adapter**
+
+  * Promiscuous Mode: **Allow All**
+  * Cable Connected: **Enabled**
+
+---
+
+## 🌐 Set a Static IP on Talos VMs (During Boot)
+
+1. Note the **IP Address** and **Gateway** shown at top right of the Talos Summary page.
+2. Press `F3` to open menu.
+3. Tab to **Interface** > `Enter`
+4. Select your interface (e.g., `enp0s3`) > `Enter`
+5. Tab to **Mode** > Change `DHCP` to `Static` > `Enter`
+6. Enter the desired static IP details (use same address assigned earlier).
+7. Tab to **Save** > `Enter`
+8. Repeat for other worker/control plane nodes.
+
+---
+
+## 🌐 Set a Static IP on Linux Manager (Netplan)
+
+1. Run `ip a` to identify your interface name and current address.
+
+```bash
 ip a
-1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
-    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
-    inet 127.0.0.1/8 scope host lo
-       valid_lft forever preferred_lft forever
-    inet6 ::1/128 scope host noprefixroute 
-       valid_lft forever preferred_lft forever
-2: enp2s0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc fq_codel state DOWN group default qlen 1000
-    link/ether b4:a9:fc:6b:62:c8 brd ff:ff:ff:ff:ff:ff
-3: wlp3s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
-    link/ether 0c:7a:15:56:55:68 brd ff:ff:ff:ff:ff:ff
-    inet 192.168.1.223/24 brd 192.168.1.255 scope global dynamic noprefixroute wlp3s0
-       valid_lft 86175sec preferred_lft 86175sec
-    inet6 2001:4451:664:2b00:cdad:51fb:1459:2635/64 scope global temporary dynamic 
-       valid_lft 258975sec preferred_lft 85706sec
-    inet6 2001:4451:664:2b00:e70:cbaa:4da0:9faf/64 scope global dynamic mngtmpaddr noprefixroute 
-       valid_lft 258975sec preferred_lft 172575sec
-    inet6 fe80::bf98:7c34:ab8a:b70b/64 scope link noprefixroute 
-       valid_lft forever preferred_lft forever
 ```
-2. Do `ip route | grep default` to look for your gateway.
-```git bash
-default via **192.168.1.1** dev wlp3s0 proto dhcp src 192.168.1.233 metric 600
+
+2. Run `ip route | grep default` to identify your gateway.
+
+```bash
+ip route | grep default
 ```
-3. Do `ls /etc/netplan` and look at the contents. If you're using a bare-metal Linux device as a manager, you should do `nano 01-network-manager-all.yaml`. If your Linux manager is on VirtualBox, most likely `50-cloud-init.yaml` would only show up. Therefore, you should `nano 50-cloud-init.yaml`.
-4. Copy and paste this format in the yaml file. Add the IP address, gateway, and network interface on its respective place.
-```git bash
-# For wlp3s0 or other Wi-Fi network interfaces:
+
+3. List netplan configs:
+
+```bash
+ls /etc/netplan
+```
+
+4. Edit your appropriate netplan file (usually `50-cloud-init.yaml`):
+
+```bash
+sudo nano /etc/netplan/50-cloud-init.yaml
+```
+
+5. Replace or edit its content like this:
+
+**For Wi-Fi (wlp3s0)**
+
+```yaml
 network:
   version: 2
   wifis:
     wlp3s0:
       addresses:
-        - <Your IP address>/24
+        - <Your IP>/24
       routes:
         - to: default
-          via: <Your gateway>
+          via: <Your Gateway>
       nameservers:
-        addresses:
-          - 8.8.8.8
-          - 1.1.1.1
+        addresses: [8.8.8.8, 1.1.1.1]
       access-points:
-        "Your_WiFi_Name_or_SSID":
-          password: "Your_WiFi_Password"
+        "<SSID>":
+          password: "<WiFi Password>"
       dhcp4: no
+```
 
----
+**For Ethernet (enp0s3)**
 
-# For enp0s3 or other ethernet network interfaces:
+```yaml
 network:
   version: 2
   ethernets:
     enp0s3:
       addresses:
-        - <Your IP address>/24
+        - <Your IP>/24
       routes:
         - to: default
-          via: <Your gateway>
+          via: <Your Gateway>
       nameservers:
-        addresses:
-          - 8.8.8.8
-          - 1.1.1.1
+        addresses: [8.8.8.8, 1.1.1.1]
       dhcp4: no
 ```
-5. Do `netplan try` to see if it is compatible. If there are no issues, do `netplan apply`.
+
+6. Apply config:
+
+```bash
+sudo netplan try
+sudo netplan apply
+```
+
+**Note:** `netplan try` will wait for confirmation; auto-reverts if you don't confirm.
 
 ---
 
-## 🖥️ Setting up the Control Plane
+## 💻 Deploy the Talos Control Plane
 
 ```bash
 export CONTROL_PLANE_IP=<control-plane-IP>
@@ -113,14 +127,20 @@ talosctl gen config talos-vbox-cluster https://$CONTROL_PLANE_IP:6443 --output-d
 talosctl apply-config --insecure --nodes $CONTROL_PLANE_IP --file _out/controlplane.yaml
 ```
 
-## 🖥️ Setting up a Worker Node
+---
+
+## 💻 Deploy Worker Nodes
+
 ```bash
 export WORKER_IP=<worker-node-IP>
 
 talosctl apply-config --insecure --nodes $WORKER_IP --file _out/worker.yaml
 ```
 
-## 📝 Bootstrap the Cluster and Set Talos Config
+---
+
+## 📅 Bootstrap the Cluster + Configure Context
+
 ```bash
 export TALOSCONFIG=_out/talosconfig
 
@@ -128,16 +148,24 @@ talosctl --talosconfig $TALOSCONFIG config endpoint $CONTROL_PLANE_IP
 talosctl --talosconfig $TALOSCONFIG config node $CONTROL_PLANE_IP
 
 talosctl config get-contexts
-```
-*If you have multiple control planes, change the IP addresses accordingly to bootstrap all control planes.*
-```bash
-talosctl --talosconfig $TALOSCONFIG config endpoint <second-control-plane-ip>
-talosctl --talosconfig $TALOSCONFIG config node <second-control-plane-ip>
+
+talosctl --talosconfig $TALOSCONFIG bootstrap
 ```
 
 ---
 
-## 🗑️ Delete or Reset Talos Config and Clean Working Directory
+## 📆 Fetch Kubeconfig & Test Cluster
+
+```bash
+talosctl --talosconfig $TALOSCONFIG kubeconfig ./
+kubectl --kubeconfig=./kubeconfig get nodes
+kubectl --kubeconfig=./kubeconfig get pods -n kube-system
+```
+
+---
+
+## 📇 Clean-up + Reset Configs
+
 ```bash
 rm -rf ~/.talos/
 rm -rf _out/
@@ -152,3 +180,11 @@ brew uninstall kubectl
 brew uninstall k9s
 ```
 
+---
+
+## 🔧 Notes
+
+* Avoid having multiple `network:` keys in a single netplan config file.
+* Talos defaults to `ext4` filesystem unless customized.
+* For long-term use, prefer Type-1 hypervisors or bare-metal.
+* Lens IDE and `k9s` are great tools to monitor your cluster.
