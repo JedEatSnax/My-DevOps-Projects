@@ -12,7 +12,7 @@ Install via [Homebrew](https://brew.sh/):
 
 * [Talos Linux CLI (talosctl)](https://www.talos.dev/v1.10/talos-guides/install/talosctl/)
 * [Kubernetes CLI (kubectl)](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
-* [k9s terminal UI](https://k9scli.io/topics/install/) (Optional)
+* [k9s terminal UI](https://k9scli.io/topics/install/) *(Optional)*
 
 ## 💻 Talos VM Configuration (VirtualBox)
 

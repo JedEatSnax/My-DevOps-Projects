@@ -2,14 +2,14 @@
 Talos is a container-optimized Linux distribution for Kubernetes. It is designed to be minimal, immutable, and secure by default. Learn more at [Sidero Labs official documentation](https://www.talos.dev/v1.10/introduction/what-is-talos/). This setup provides a Docker users to be comfortable with the Talos API. For development or production environments, bare-metal setups or Type-1 / Type-2 hypervisors, such as VirtualBox, Hyper-V, and Proxmox are recommended. Official Talos Docker guide: [here](https://www.talos.dev/v1.10/talos-guides/install/local-platforms/docker/). This guide adds practical tips missing from the official guide.
 
 ### 📋 Prerequisites:
-1. [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install)(for Windows users)
+1. [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install) *(for Windows users)*
 2. [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 3. [Talos Linux CLI (talosctl)](https://www.talos.dev/v1.10/talos-guides/install/talosctl/)
-4. [k9s terminal UI](https://k9scli.io/topics/install/) (Optional)
+4. [k9s terminal UI](https://k9scli.io/topics/install/) *(Optional)*
 
 
 ## ⚙️ Creating a Cluster
-
+Do `talosctl cluster create` to create a cluster.
 ```bash
 merging kubeconfig into "/root/.kube/config"
 PROVISIONER           docker
