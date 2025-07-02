@@ -1,20 +1,18 @@
-# 📦 Talos Linux v1.10.4 on VirtualBox — Setup Guide
+# ☸️ Talos Linux v1.10.4 on VirtualBox — Setup Guide
 
-Talos is a container-optimized Linux distribution for Kubernetes. It is designed to be minimal, immutable, and secure by default. Learn more at [Sidero Labs official documentation](https://www.talos.dev/v1.10/introduction/what-is-talos/). This setup provides a development environment for the Talos API. For long-term production, bare-metal setups or type-1 hypervisors like Hyper-V or Proxmox are recommended. Official Talos VirtualBox guide: [here](https://www.talos.dev/v1.10/talos-guides/install/local-platforms/virtualbox/). This guide adds practical tips missing from the official guide.
+Talos is a container-optimized Linux distribution for Kubernetes. It is designed to be minimal, immutable, and secure by default. Learn more at [Sidero Labs official documentation](https://www.talos.dev/v1.10/introduction/what-is-talos/). This setup provides a development environment for the Talos API. For long-term production, bare-metal setups or Type-1 hypervisors, such as Hyper-V or Proxmox are recommended. Official Talos VirtualBox guide: [here](https://www.talos.dev/v1.10/talos-guides/install/local-platforms/virtualbox/). This guide adds practical tips missing from the official guide.
 
 ---
 
 ## 💻 Binaries and Packages for Linux Manager
 
-*This machine acts as the Talos cluster management workstation. Recommended distributions: Ubuntu, Debian.*
+*This machine acts as the Talos cluster management workstation. Recommended distributions are Ubuntu and Debian.*
 
 Install via [Homebrew](https://brew.sh/):
 
 * [Talos Linux CLI (talosctl)](https://www.talos.dev/v1.10/talos-guides/install/talosctl/)
 * [Kubernetes CLI (kubectl)](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
-* [k9s terminal UI](https://k9scli.io/topics/install/) (optional)
-
----
+* [k9s terminal UI](https://k9scli.io/topics/install/) (Optional)
 
 ## 💻 Talos VM Configuration (VirtualBox)
 
@@ -38,8 +36,6 @@ Install via [Homebrew](https://brew.sh/):
 6. Enter the desired static IP details (use same address assigned earlier).
 7. Tab to **Save** > `Enter`
 8. Repeat for other worker/control plane nodes.
-
----
 
 ## 🌐 Set a Static IP on Linux Manager (Netplan)
 
@@ -117,7 +113,7 @@ sudo netplan apply
 
 ---
 
-## 💻 Deploy the Talos Control Plane
+## ⚙️ Deploy the Talos Control Plane
 
 ```bash
 export CONTROL_PLANE_IP=<control-plane-IP>
@@ -127,7 +123,7 @@ talosctl gen config talos-vbox-cluster https://$CONTROL_PLANE_IP:6443 --output-d
 talosctl apply-config --insecure --nodes $CONTROL_PLANE_IP --file _out/controlplane.yaml
 ```
 
-## 💻 Deploy Worker Nodes
+## ⚙️ Deploy Worker Nodes
 
 ```bash
 export WORKER_IP=<worker-node-IP>
