@@ -131,6 +131,9 @@ export WORKER_IP=<worker-node-IP>
 talosctl apply-config --insecure --nodes $WORKER_IP --file _out/worker.yaml
 ```
 
+## 🔍 Accessing the Dashboard
+Do the `talosctl dashboard -n <node-ip>` to see the Talos dashboard of a specific node.
+
 ## 📅 Bootstrap the Cluster + Configure Context
 
 ```bash

@@ -9,7 +9,7 @@ Talos is a container-optimized Linux distribution for Kubernetes. It is designed
 
 
 ## ⚙️ Creating a Cluster
-Do `talosctl cluster create` to create a cluster.
+Do `talosctl cluster create` to create a cluster. Here is the output:
 ```bash
 merging kubeconfig into "/root/.kube/config"
 PROVISIONER           docker
@@ -31,6 +31,9 @@ You can increase the amount of workers by adding the `--workers <Worker Nodes>`
 ```bash
 talosctl cluster create --workers 2
 ```
+
+## 🔍 Accessing the Dashboard
+Do the `talosctl dashboard -n <node-ip>` to see the Talos dashboard of a specific node.
 
 ## ⚠️ Disclaimer and Limitations
 Certain APIs are unavailable since Talos is running on a container. For instance, if you run a simple container, such as `kubectl run nginx --image=nginx --port=80`, this is the output:
@@ -64,7 +67,7 @@ curl http://10.96.42.54:31918
 ```
 
 Since certain APIs are unavailable, port forwarding locally would result to refusal to connect. In addition, using a NodePort will fail because it will take too long to respond. Here is the output for the `curl` command:
-```bash
+```
 curl: (28) Failed to connect to 10.96.42.54 port 31918 after 134274 ms: Couldn't connect to server
 ```
 
