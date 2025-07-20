@@ -170,8 +170,6 @@ brew uninstall kubectl
 brew uninstall k9s
 ```
 
----
-
 ## 🔧 Notes
 
 * Avoid having multiple `network:` keys in a single netplan config file.
@@ -179,7 +177,9 @@ brew uninstall k9s
 * For long-term use, prefer Type-1 hypervisors or bare-metal.
 * Lens IDE and `k9s` are great tools to monitor your cluster.
 
-## ☸️ Talos Linux on Docker Desktop — Setup Guide
+---
+
+# ☸️ Talos Linux on Docker Desktop — Setup Guide
 This setup provides a Docker users to be comfortable with the Talos API. For development or production environments, bare-metal setups or Type-1 / Type-2 hypervisors, such as VirtualBox, Hyper-V, Proxmox, and KVM/QEMU are recommended. Official Talos Docker guide: [here](https://www.talos.dev/v1.10/talos-guides/install/local-platforms/docker/). This guide adds practical tips missing from the official guide.
 
 ### 📋 Prerequisites:
