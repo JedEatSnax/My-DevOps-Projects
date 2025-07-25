@@ -40,25 +40,25 @@ Install via [Homebrew](https://brew.sh/):
 
 1. Run `ip a` to identify your interface name and current address.
 
-```bash
+```
 ip a
 ```
 
 2. Run `ip route | grep default` to identify your gateway.
 
-```bash
+```
 ip route | grep default
 ```
 
 3. List netplan configs:
 
-```bash
+```
 ls /etc/netplan
 ```
 
 4. Edit your appropriate netplan file (usually `50-cloud-init.yaml`):
 
-```bash
+```
 sudo nano /etc/netplan/50-cloud-init.yaml
 ```
 
@@ -103,7 +103,7 @@ network:
 
 6. Apply config:
 
-```bash
+```
 sudo netplan try
 sudo netplan apply
 ```
@@ -114,7 +114,7 @@ sudo netplan apply
 
 ## ⚙️ Deploy the Talos Control Plane
 
-```bash
+```
 export CONTROL_PLANE_IP=<control-plane-IP>
 
 talosctl gen config talos-vbox-cluster https://$CONTROL_PLANE_IP:6443 --output-dir _out
@@ -124,7 +124,7 @@ talosctl apply-config --insecure --nodes $CONTROL_PLANE_IP --file _out/controlpl
 
 ## ⚙️ Deploy Worker Nodes
 
-```bash
+```
 export WORKER_IP=<worker-node-IP>
 
 talosctl apply-config --insecure --nodes $WORKER_IP --file _out/worker.yaml
@@ -135,7 +135,7 @@ Do the `talosctl dashboard -n <node-ip>` to see the Talos dashboard of a specifi
 
 ## 📅 Bootstrap the Cluster + Configure Context
 
-```bash
+```
 export TALOSCONFIG=_out/talosconfig
 
 talosctl --talosconfig $TALOSCONFIG config endpoint $CONTROL_PLANE_IP
@@ -148,7 +148,7 @@ talosctl --talosconfig $TALOSCONFIG bootstrap
 
 ## 📆 Fetch Kubeconfig & Test Cluster
 
-```bash
+```
 talosctl --talosconfig $TALOSCONFIG kubeconfig ./
 kubectl --kubeconfig=./kubeconfig get nodes
 kubectl --kubeconfig=./kubeconfig get pods -n kube-system
@@ -156,7 +156,7 @@ kubectl --kubeconfig=./kubeconfig get pods -n kube-system
 
 ## 📇 Clean-up + Reset Configs
 
-```bash
+```
 rm -rf ~/.talos/
 rm -rf _out/
 rm -f controlplane.yaml worker.yaml talosconfig
@@ -191,7 +191,7 @@ This setup provides a Docker users to be comfortable with the Talos API. For dev
 
 ## ⚙️ Creating a Cluster
 Do `talosctl cluster create` to create a cluster. Here is the output:
-```bash
+```
 merging kubeconfig into "/root/.kube/config"
 PROVISIONER           docker
 NAME                  talos-default
@@ -209,7 +209,7 @@ NAME                            TYPE           IP         CPU    RAM      DISK
 ```
 
 You can increase the amount of workers by adding the `--workers <Worker Nodes>`
-```bash
+```
 talosctl cluster create --workers 2
 ```
 
@@ -218,13 +218,13 @@ Do the `talosctl dashboard -n <node-ip>` to see the Talos dashboard of a specifi
 
 ## ⚠️ Disclaimer and Limitations
 Certain APIs are unavailable since Talos is running on a container. For instance, if you run a simple container, such as `kubectl run nginx --image=nginx --port=80`, this is the output:
-```bash
+```
 Warning: would violate PodSecurity "restricted:latest": allowPrivilegeEscalation != false (container "nginx" must set securityContext.allowPrivilegeEscalation=false), unrestricted capabilities (container "nginx" must set securityContext.capabilities.drop=["ALL"]), runAsNonRoot != true (pod or container "nginx" must set securityContext.runAsNonRoot=true), seccompProfile (pod or container "nginx" must set securityContext.seccompProfile.type to "RuntimeDefault" or "Localhost")
 pod/nginx created
 ```
 
 By doing the `kubectl get pods` command, this will be the output:
-```bash
+```
 NAME    READY   STATUS    RESTARTS   AGE
 nginx   1/1     Running   0          9m42s
 ```
@@ -236,14 +236,14 @@ First, locate the pod you want to expose using `kubectl get pods`, then forwardi
 
 ### 🌍 Create a Kubernetes Service (NodePort)
 First, locate the pod you want to expose using `kubectl get pods`, next, expose the pod `kubectl expose pod <pod-name> --type=NodePort --port=80 --target-port=80`. Do `kubectl get svc` to see the IP address. It would look something like this:
-```bash
+```
 NAME         TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)        AGE
 kubernetes   ClusterIP   10.96.0.1     <none>        443/TCP        11m
 nginx        NodePort    10.96.42.54   <none>        80:31918/TCP   10s
 ```
 
 Lastly, open a browser or `curl` the URL.
-```bash
+```
 curl http://10.96.42.54:31918
 ```
 

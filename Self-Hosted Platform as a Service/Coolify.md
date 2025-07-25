@@ -15,7 +15,7 @@ This is a self-hosting guide for Coolify. The official Coolify self-hosted guide
 5. Fail2Ban Intrusion Prevention Software Framework
 
 ## Update Server Binaries and Dependencies while Enabling Automatic Security Updates
-```bash
+```
 sudo apt-get update --fix-missing -y; sudo apt-get full-upgrade -y; sudo apt autoremove -y; sudo apt autoclean -y; \
 sudo apt install unattended-upgrades; sudo dpkg-reconfigure --priority=low unattended-upgrades -y
 ```
@@ -23,18 +23,18 @@ sudo apt install unattended-upgrades; sudo dpkg-reconfigure --priority=low unatt
 ## Install and Setup Tailscale SSH
 **Warning: Installing Tailscale will give you an accessible public IP address. Others can use this IP regardless if Uncomplicated Firewall is closed due to Docker container networking being NAT-based.**
 *Run this shell script to your client and host instances.*
-```bash
+```
 curl -fsSL https://tailscale.com/install.sh | sh
 ```
 *After that, run `sudo tailscale up` to register your instances. Clicking the link will provide access to the Tailscale admin dashboard to manage your registered devices.*
 
 ## Setting up Uncomplicated Firewall (ufw) with Tailscale SSH
 *Install uncomplicated firewall to configure your server ports.*
-```bash
+```
 sudo apt install ufw; sudo ufw enable; sudo ufw default deny incoming; sudo ufw default allow outgoing
 ```
 *Allow your client to the server.*
-```bash
+```
 #Use your client IP address given by Tailscale
 sudo ufw allow in on tailscale0 from <ip-address>
 
@@ -43,13 +43,13 @@ sudo ufw allow 22
 ```
 
 ## Install Fail2Ban
-```bash
+```
 sudo apt install fail2ban -y
 ```
 
 ## Install Coolify on your Server
-```bash
-curl -fsSL https://cdn.coollabs.io/coolify/install.sh | bash 
+```
+curl -fsSL https://cdn.coollabs.io/coolify/install.sh |  
 ```
 
 ## Install Cloudflare Tunnels on your Server
